@@ -44,8 +44,21 @@ public static class Render
         {
             roomBase.Add(new StringBuilder(new string(' ', windowSize.x)));
         }
-        
+
         int padding = 10;
+        if (Console.WindowHeight < padding) padding = Console.WindowHeight;
+        
+        for (int i = 0; i < padding; i++)
+        {
+            for (int j = 0; j < windowSize.x; j++)
+            {
+                if (i == 0 || i == padding - 1 || j == 0 || j == windowSize.x - 1)
+                {
+                    roomBase[i][j] = '#';
+                }
+            }
+        }
+
         for (int i = padding; i < windowSize.y; i++)
         {
             for (int j = 0; j < windowSize.x; j++)
