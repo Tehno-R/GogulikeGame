@@ -20,12 +20,13 @@ public static class Render
         toRend = Enumerable.Repeat(new StringBuilder(new string(' ', windowSize.x )), windowSize.y).ToList();;
         
         BuildRoomBase();
+        toRend = roomBase;
         Console.Clear();
         for (int i = 0; i < windowSize.y; i++)
         {
             for (int j = 0; j < windowSize.x; j++)
             {
-                Console.Write(roomBase[i][j]);
+                Console.Write(toRend[i][j]);
             }
         }
     }
