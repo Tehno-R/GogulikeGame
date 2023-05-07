@@ -1,6 +1,4 @@
 ﻿// w:h 148:35
-
-using System.Text;
 using Roguelike;
 
 class Program
@@ -10,7 +8,8 @@ class Program
 
     static void Main(string[] args)
     {
-        Render.Start();
+        // Render.Start();
+        Map.Start();
         Render.Rend();
         
         while (true)
@@ -18,7 +17,7 @@ class Program
             if (windowWidth != Console.WindowWidth || windowHeight != Console.WindowHeight)
             {
                 windowWidth = Console.WindowWidth;
-                windowHeight = Console.WindowHeight; 
+                windowHeight = Console.WindowHeight;
                 Render.Rend();
             }
         }

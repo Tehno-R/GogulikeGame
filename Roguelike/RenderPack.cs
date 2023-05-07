@@ -2,19 +2,7 @@
 
 namespace Roguelike;
 
-public struct RenderPack
+public abstract class RenderPack
 {
-    private StringBuilder text;
-    private vec2 pos;
-
-    RenderPack(StringBuilder str, vec2 position)
-    {
-        this.text = str;
-        this.pos = position;
-    }
-    RenderPack(string str, vec2 position)
-    {
-        this.text = new StringBuilder(str);
-        this.pos = position;
-    }
+    public abstract void Draw(List<StringBuilder> orig);
 }
