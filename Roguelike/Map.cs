@@ -4,11 +4,11 @@ namespace Roguelike;
 
 public static class Map
 {
-    private static readonly vec2 mapSize = new vec2(19, 5); 
+    private static readonly vec2 mapSize = new vec2(17, 5); 
     private static Grid _grid = new Grid();
     private class Cell : RenderPack
     {
-        public static readonly vec2 lenCell = new vec2(7, 5);
+        public static readonly vec2 lenCell = new vec2(8, 6);
 
         private vec2 pos;
 
@@ -20,11 +20,13 @@ public static class Map
         {
             int endX = pos.x + lenCell.x;
             int endY = pos.y + lenCell.y;
-            for (int i = pos.y; i < endY; i++)
+            vec2 winSize = Program.getWindowSize();
+            for (int i = pos.y; i < endY && i < winSize.y; i++)
             {
-                for (int j = pos.x; j < endX; j++)
+                for (int j = pos.x; j < endX && j < winSize.x; j++)
                 {
-                    if (j == pos.x || j == endX - 1 || i == pos.y || i == endY - 1) orig[i][j] = '*';
+                    if (j == pos.x || j == endX - 1) orig[i][j] = '|';
+                    else if (i == pos.y || i == endY - 1) orig[i][j] = '-';
                 }
             }
         }
@@ -51,11 +53,11 @@ public static class Map
 
         public override void Draw(List<StringBuilder> orig)
         {
-            foreach (var e in allCell)
+            for (int i = 0; i < gridSize.y; i++)
             {
-                foreach (var cell in e)
+                for (int j = 0; j < gridSize.x; j++)
                 {
-                    cell.Draw(orig);
+                    allCell[i][j].Draw(orig);
                 }
             }
         }

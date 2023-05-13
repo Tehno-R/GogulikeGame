@@ -8,9 +8,8 @@ public static class Render
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
 
-    private static readonly int PADDING = 9;
+    private static readonly int PADDING = 4;
     public static int padding = PADDING;
-    public static void Start() {}
 
     public static void Rend()
     {
@@ -47,14 +46,15 @@ public static class Render
     {
         vec2 windowSize = Program.getWindowSize();
         
-        if (Console.WindowHeight < padding) padding = Console.WindowHeight;
+
+        if (windowSize.y < PADDING) padding = windowSize.y;
         else padding = PADDING;
 
         for (int i = 0; i < padding; i++)
         {
             for (int j = 0; j < windowSize.x; j++)
             {
-                if (i == 0 || i == padding - 1 || j == 0 || j == windowSize.x - 1)
+                if (i == 0 || i == padding || j == 0 || j == windowSize.x - 1)
                 {
                     toRend[i][j] = '#';
                 }
