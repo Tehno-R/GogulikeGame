@@ -1,23 +1,22 @@
 ﻿namespace Roguelike;
 
-public class Wizard : Person, IAttack
+public class Hero : Person, IAttack // управляемый персонаж
 {
-    
-    private const int WIZARDHP = 10;
-    private const int WIZARDATK = 4;
+    private const int WIZARDHP = 10; // начальные стандартные значения
+    private const int WIZARDATK = 4; // начальные стандартные значения
+    private const string SKIN = "Ec  >I" +
+                                "EK{  I" +
+                                "Ec  >I"; // моделька персонажа
 
-    public Wizard(int hp, int atk) : base(WIZARDHP, WIZARDATK)
-    {
-        
-    }
+    public Hero() : base(WIZARDHP, WIZARDATK, SKIN) {}
     
-    public void Attack() // thunder strike on random cells
+    public void Attack()
     {
         //throw new NotImplementedException();
     }
 
-    public void Ability() // count up thunders strikes for 1 turn
+    protected override void Death()
     {
-        //throw new NotImplementedException();
+        // stop game and show game over
     }
 }

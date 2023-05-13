@@ -11,15 +11,13 @@ class Program
         // Render.Start();
         Map.Start();
         Render.Rend();
+        Hero player = new Hero();
+        Map.SetPersonInCell(new vec2(2,4), player);
         
         while (true)
         {
             if (windowWidth != Console.WindowWidth || windowHeight != Console.WindowHeight)
             {
-                // if (Console.WindowWidth < 120 - 3) windowWidth = 120 - 3;
-                // else windowWidth = Console.WindowWidth;
-                // if (Console.WindowHeight < 30) windowHeight = 30;
-                // else windowHeight = Console.WindowHeight; 
                 windowWidth = Console.WindowWidth;
                 windowHeight = Console.WindowHeight;
                 Render.Rend();

@@ -8,8 +8,8 @@ public static class Render
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
 
-    private static readonly int PADDING = 4;
-    public static int padding = PADDING;
+    private static readonly int PADDING = 5; // константа отступа (используется если консоль больше окна инветоря)
+    public static int padding = PADDING; // отступ в символах уделяемый для строки инвенторя
 
     public static void Rend()
     {
