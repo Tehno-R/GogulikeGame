@@ -14,7 +14,37 @@ public static class Render
     public static int topPadding = topPADDING;  // отступ в символах уделяемый для log list
 
 
-    public static void Rend()
+    public static void RendText(List<string> text)
+    {
+        vec2 windowSize = Program.getWindowSize();
+        toRend = new List<StringBuilder>();
+        for (int i = 0; i < windowSize.y; i++) // prepare StringBuild (init)
+        {
+            toRend.Add(new StringBuilder(new string(' ', windowSize.x)));
+        }
+        
+        int textPadding = (windowSize.y / 2) - (text.Count / 2);
+        if (textPadding < 0) textPadding = 0;
+        for (int i = textPadding, k = 0; i < windowSize.y && k < text.Count; i++, k++)
+        {
+            int strokePadding = (windowSize.x / 2) - (text[k].Length / 2);
+            if (strokePadding < 0) strokePadding = 0;
+            for (int j = strokePadding, l = 0; j < windowSize.x - 1 && l < text[k].Length; j++, l++)
+            {
+                toRend[i][j] = text[k][l];
+            }
+        }
+        
+        Console.Clear();
+        for (int i = 0; i < windowSize.y; i++) // print result
+        {
+            for (int j = 0; j < windowSize.x; j++)
+            {
+                Console.Write(toRend[i][j]);
+            }
+        }
+    }
+    public static void RendGame()
     {
         vec2 windowSize = Program.getWindowSize();
         toRend = new List<StringBuilder>();
@@ -39,7 +69,7 @@ public static class Render
             }
         }
     }
-    
+
     public static void AddRendPack(RenderPack pack)
     {
         renderList.Add(pack);

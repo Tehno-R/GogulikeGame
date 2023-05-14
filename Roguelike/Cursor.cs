@@ -58,7 +58,7 @@ public static class Cursor
         {
             currentCell = Map.GetCell(newInd);
             position = new vec2(currentCell.GetPos().x, currentCell.GetPos().y);
-            Render.Rend();
+            Render.RendGame();
         }
     }
 }
