@@ -8,27 +8,27 @@ public static class Render
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
 
-    private static readonly int PADDING = 5; // константа отступа (используется если консоль больше окна инветоря)
+    private const int PADDING = 5; // константа отступа (используется если консоль больше окна инветоря)
     public static int padding = PADDING; // отступ в символах уделяемый для строки инвенторя
 
     public static void Rend()
     {
         vec2 windowSize = Program.getWindowSize();
         toRend = new List<StringBuilder>();
-        for (int i = 0; i < windowSize.y; i++)
+        for (int i = 0; i < windowSize.y; i++) // prepare StringBuild (init)
         {
             toRend.Add(new StringBuilder(new string(' ', windowSize.x)));
         }
 
-        foreach (var t in renderList)
+        foreach (var t in renderList) // draw grid
         {
             t.Draw(toRend);
         }
-        
-        BuildRoomBase();
+        Cursor.Draw(toRend); // draw cursor
+        BuildRoomBase(); // draw top border and center border
 
         Console.Clear();
-        for (int i = 0; i < windowSize.y; i++)
+        for (int i = 0; i < windowSize.y; i++) // print result
         {
             for (int j = 0; j < windowSize.x; j++)
             {

@@ -22,6 +22,25 @@ class Program
                 windowHeight = Console.WindowHeight;
                 Render.Rend();
             }
+            else if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo inf = Console.ReadKey();
+                switch (inf.Key)
+                {
+                    case ConsoleKey.RightArrow:
+                        Cursor.Move(CursorMoveDirection.right);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        Cursor.Move(CursorMoveDirection.left);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        Cursor.Move(CursorMoveDirection.up);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        Cursor.Move(CursorMoveDirection.down);
+                        break;
+                }
+            }
         }
     }
 
