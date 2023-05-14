@@ -8,8 +8,11 @@ public static class Render
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
 
-    private const int PADDING = 5; // константа отступа (используется если консоль больше окна инветоря)
-    public static int padding = PADDING; // отступ в символах уделяемый для строки инвенторя
+    private const int PADDING = 5;              // константа отступа (используется если консоль больше окна инветоря)
+    public static int padding = PADDING;        // отступ в символах уделяемый для строки инвенторя
+    private const int topPADDING = 98;          // константа отступа (используется если консоль больше log list)
+    public static int topPadding = topPADDING;  // отступ в символах уделяемый для log list
+
 
     public static void Rend()
     {
@@ -45,16 +48,16 @@ public static class Render
     public static void BuildRoomBase()
     {
         vec2 windowSize = Program.getWindowSize();
-        
-
-        if (windowSize.y < PADDING) padding = windowSize.y;
+        if (windowSize.y <= PADDING) padding = windowSize.y - 1;
         else padding = PADDING;
+        if (windowSize.x <= topPADDING) topPadding = windowSize.x - 1;
+        else topPadding = topPADDING;
 
-        for (int i = 0; i < padding; i++)
+        for (int i = 0; i <= padding; i++)
         {
-            for (int j = 0; j < windowSize.x; j++)
+            for (int j = 0; j <= topPadding; j++)
             {
-                if (i == 0 || i == padding || j == 0 || j == windowSize.x - 1)
+                if (i == 0 || i == padding || j == 0 || j == topPadding)
                 {
                     toRend[i][j] = '#';
                 }
