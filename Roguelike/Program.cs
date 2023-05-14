@@ -19,14 +19,14 @@ static class Program
         text.Add("Play Game");
         text.Add("");
         text.Add("Press Enter to Start");
-        Render.RendText(text);
+        Render.RendMainMenu(text);
         
         Boolean flag = true;
         while (flag)
         {
             if (CheckSize())
             {
-                Render.RendText(text);
+                Render.RendMainMenu(text);
             }
             else if (Console.KeyAvailable)
             {

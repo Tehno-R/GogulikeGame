@@ -58,7 +58,30 @@ public static class Cursor
         {
             currentCell = Map.GetCell(newInd);
             position = new vec2(currentCell.GetPos().x, currentCell.GetPos().y);
+            CheckInfo();
             Render.RendGame();
+        }
+    }
+
+    private static void CheckInfo()
+    {
+        Person targetP = currentCell.GetContainer().GetPerson();
+        // gameObject
+        List<string> infoText = new List<string>();
+        if (targetP != null)
+        {
+            (vec2 info, string name) = targetP.getCharach(); // ! в c# можно возвращать несколько переменных !
+            infoText.Add("name: " + name);
+            infoText.Add("hp: " + info.x);
+            infoText.Add("atc: " + info.y);
+
+            Render.SetStatus(infoText);
+        }
+
+        // else if (gameObject) ...
+        else
+        {
+            Render.SetStatus(null);
         }
     }
 }

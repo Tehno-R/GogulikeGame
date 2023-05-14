@@ -7,16 +7,18 @@ interface IAttack
     void Attack();
 }
 
-public class Person : RenderPack // Класс описывает любое живое существо игры (игрок, враг)
+public class Person// Класс описывает любое живое существо игры (игрок, враг)
 {
+    private string name;
     private int healpoints;
     private int attack;
     
     protected readonly string skin;
     private Map.Cell currentCell;
 
-    protected Person(int hp, int atk, string skin) 
+    protected Person(string name, int hp, int atk, string skin)
     {
+        this.name = name;
         this.healpoints = hp;
         this.attack = atk;
         this.skin = skin;
@@ -64,11 +66,11 @@ public class Person : RenderPack // Класс описывает любое ж�
     {
         return skin;
     }
+
+    public (vec2, string) getCharach() // ! в c# можно возвращать несколько переменных !
+    {
+        return (new vec2(healpoints, attack), name);
+    }
     
     protected virtual void Death(){}
-
-    public override void Draw(List<StringBuilder> orig)
-    {
-        
-    }
 }

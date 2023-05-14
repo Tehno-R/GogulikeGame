@@ -4,7 +4,7 @@ namespace Roguelike;
 
 public static class Map
 {
-    private static readonly vec2 mapSize = new vec2(17, 7); 
+    private static readonly vec2 mapSize = new vec2(17, 8); 
     private static Grid _grid = new Grid();
 
     public class Cell : RenderPack

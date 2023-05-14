@@ -7,14 +7,15 @@ public static class Render
     private static List<RenderPack> renderList = new List<RenderPack>();
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
+    private static List<string> ObjStatus = null;
 
-    private const int PADDING = 5;              // константа отступа (используется если консоль больше окна инветоря)
+    private const int PADDING = 7;              // константа отступа (используется если консоль больше окна инветоря)
     public static int padding = PADDING;        // отступ в символах уделяемый для строки инвенторя
     private const int topPADDING = 98;          // константа отступа (используется если консоль больше log list)
     public static int topPadding = topPADDING;  // отступ в символах уделяемый для log list
 
 
-    public static void RendText(List<string> text)
+    public static void RendMainMenu(List<string> text)
     {
         vec2 windowSize = Program.getWindowSize();
         toRend = new List<StringBuilder>();
@@ -44,6 +45,23 @@ public static class Render
             }
         }
     }
+    public static void RendText(List<string> text, vec2 startPos, vec2 endPos)
+    {
+        if (text == null) return;
+        vec2 windowSize = Program.getWindowSize();
+
+        int textPadding = ((endPos.y - startPos.y) / 2) - (text.Count / 2);
+        if (textPadding < 0) textPadding = 0;
+        for (int i = textPadding + startPos.y, k = 0; i < endPos.y && k < text.Count && i < windowSize.y; i++, k++)
+        {
+            int strokePadding = ((endPos.x - startPos.x) / 2) - (text[k].Length / 2);
+            if (strokePadding < 0) strokePadding = 0;
+            for (int j = strokePadding + startPos.x, l = 0; j < endPos.x - 1 && l < text[k].Length && j < windowSize.x; j++, l++)
+            {
+                toRend[i][j] = text[k][l];
+            }
+        }
+    }
     public static void RendGame()
     {
         vec2 windowSize = Program.getWindowSize();
@@ -58,8 +76,9 @@ public static class Render
             t.Draw(toRend);
         }
         Cursor.Draw(toRend); // draw cursor
+        int endGridX = Map.GetGridSize().x * (Map.Cell.lenCell.x - 1);
+        RendText(ObjStatus, new vec2(topPadding + 1, 0), new vec2(endGridX, padding));
         BuildRoomBase(); // draw top border and center border
-
         Console.Clear();
         for (int i = 0; i < windowSize.y; i++) // print result
         {
@@ -69,12 +88,6 @@ public static class Render
             }
         }
     }
-
-    public static void AddRendPack(RenderPack pack)
-    {
-        renderList.Add(pack);
-    }
-
     public static void BuildRoomBase()
     {
         vec2 windowSize = Program.getWindowSize();
@@ -105,4 +118,14 @@ public static class Render
             }
         }
     }
+    public static void AddRendPack(RenderPack pack)
+    {
+        renderList.Add(pack);
+    }
+
+    public static void SetStatus(List<string> info)
+    {
+        ObjStatus = info;
+    }
+
 }
