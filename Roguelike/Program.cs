@@ -1,26 +1,55 @@
 ﻿// w:h 148:35
 using Roguelike;
 
-class Program
+static class Program
 {
     private static int windowWidth = Console.WindowWidth;
     private static int windowHeight = Console.WindowHeight;
 
     static void Main(string[] args)
     {
+        Menu();
+        Game();
+        GameOver();
+    }
+
+    private static void Menu()
+    {
+        List<string> text = new List<string>();
+        text.Add("Play Game");
+        text.Add("");
+        text.Add("Press Enter to Start");
+        Render.RendText(text);
+        
+        Boolean flag = true;
+        while (flag)
+        {
+            if (CheckSize())
+            {
+                Render.RendText(text);
+            }
+            else if (Console.KeyAvailable)
+            {
+                if (Console.ReadKey().Key == ConsoleKey.Enter)
+                {
+                    flag = false;
+                }
+            }
+        }
+    }
+    private static void Game()
+    {
         // Render.Start();
         Map.Start();
-        Render.Rend();
         Hero player = new Hero();
-        Map.SetPersonInCell(new vec2(2,4), player);
-        
+        Map.SetPersonInCell(new vec2(2,3), player);
+        Render.RendGame();
+
         while (true)
         {
-            if (windowWidth != Console.WindowWidth || windowHeight != Console.WindowHeight)
+            if (CheckSize())
             {
-                windowWidth = Console.WindowWidth;
-                windowHeight = Console.WindowHeight;
-                Render.Rend();
+                Render.RendGame();
             }
             else if (Console.KeyAvailable)
             {
@@ -41,6 +70,24 @@ class Program
                         break;
                 }
             }
+        }
+    }
+    private static void GameOver()
+    {
+        
+    }
+
+    private static bool CheckSize()
+    {
+        if (windowWidth != Console.WindowWidth || windowHeight != Console.WindowHeight)
+        {
+            windowWidth = Console.WindowWidth;
+            windowHeight = Console.WindowHeight;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
