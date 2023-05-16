@@ -6,7 +6,7 @@ static class Program
     private static int windowWidth = Console.WindowWidth;
     private static int windowHeight = Console.WindowHeight;
 
-    public static Person player = new Hero();
+    public static Hero player = new Hero();
 
     static void Main(string[] args)
     {
@@ -61,18 +61,32 @@ static class Program
                 {
                     case ConsoleKey.RightArrow:
                         Cursor.Move(CursorMoveDirection.right);
+                        uncheckAllSelected();
+                        Render.RendGame();
                         break;
                     case ConsoleKey.LeftArrow:
-                        Cursor.Move(CursorMoveDirection.left);
+                        Cursor.Move(CursorMoveDirection.left); ;
+                        uncheckAllSelected();
+                        Render.RendGame();
                         break;
                     case ConsoleKey.UpArrow:
                         Cursor.Move(CursorMoveDirection.up);
+                        uncheckAllSelected();
+                        Render.RendGame();
                         break;
                     case ConsoleKey.DownArrow:
                         Cursor.Move(CursorMoveDirection.down);
+                        uncheckAllSelected();
+                        Render.RendGame();
                         break;
                     case ConsoleKey.Enter:
                         Cursor.Select();
+                        Render.RendGame();
+                        break;
+                    case ConsoleKey.F3:
+                        uncheckAllSelected();
+                        player.Attack();
+                        Render.RendGame();
                         break;
                 }
             }
@@ -101,5 +115,19 @@ static class Program
     {
         vec2 size = new vec2(windowWidth, windowHeight);
         return size;
+    }
+
+    public static void uncheckAllSelected()
+    {
+        vec2 size = Map.GetGridSize();
+        for (int i = 0; i < size.y; i++)
+        {
+            for (int j = 0; j < size.x; j++)
+            {
+                Map.Cell temp = Map.GetCell(new vec2(j, i));
+                temp.SetSelected(false);
+                Cursor.selected = null;
+            }
+        }
     }
 }

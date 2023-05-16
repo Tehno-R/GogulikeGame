@@ -14,7 +14,7 @@ public class Person // Класс описывает любое живое су�
     private int attack;
     
     protected readonly string skin;
-    private Map.Cell currentCell = null;
+    protected Map.Cell currentCell = null;
 
     protected Person(string name, int hp, int atk, string skin)
     {

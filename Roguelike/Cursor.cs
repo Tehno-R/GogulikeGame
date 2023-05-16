@@ -17,8 +17,8 @@ public static class Cursor
                                             currentCell.GetPos().y);
 
     private const char SYMBOL = (char)210;
-    private static Map.Cell selected;
-    
+    public static Map.Cell selected;
+
     public static void Draw(List<StringBuilder> orig) // я подразумевал что всё будет рендерится от RenderPack но где-то я прокололся
     {
         vec2 winSize = Program.getWindowSize();
@@ -62,7 +62,6 @@ public static class Cursor
             currentCell = Map.GetCell(newInd);
             position = new vec2(currentCell.GetPos().x, currentCell.GetPos().y);
             CheckInfo();
-            Render.RendGame();
         }
     }
 
@@ -113,12 +112,13 @@ public static class Cursor
         {
             Program.player.Walk(selected);
             ResetSelect();
+            Program.uncheckAllSelected();
         }
         else
         {
             selected = currentCell;
-            selected.setSelected(true);
-            Render.RendGame();
+            Map.ResetSelected();
+            selected.SetSelected(true);
         }
     }
 
@@ -126,7 +126,7 @@ public static class Cursor
     {
         if (selected != null)
         {
-            selected.setSelected(false);
+            selected.SetSelected(false);
             selected = null;
         }
     }

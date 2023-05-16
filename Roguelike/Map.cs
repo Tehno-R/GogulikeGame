@@ -94,7 +94,7 @@ public static class Map
             }            
         }
 
-        public void setSelected(bool s)
+        public void SetSelected(bool s)
         {
             this.selected = s;
         }
@@ -187,6 +187,18 @@ public static class Map
     public static vec2 GetGridSize()
     {
         return _grid.GetSize();
+    }
+
+    public static void ResetSelected()
+    {
+        vec2 size = GetGridSize();
+        for (int i = 0; i < size.y; i++)
+        {
+            for (int j = 0; j < size.x; j++)
+            {
+                GetCell(new vec2(j, i)).SetSelected(false);
+            }
+        }
     }
     public static void Start()
     {
