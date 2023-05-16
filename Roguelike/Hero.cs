@@ -13,7 +13,7 @@ public class Hero : Person, IAttack // управляемый персонаж
     
     public void Attack()
     {
-        //throw new NotImplementedException();
+        
     }
 
     protected override void Death()

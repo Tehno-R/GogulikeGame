@@ -7,14 +7,14 @@ interface IAttack
     void Attack();
 }
 
-public class Person// Класс описывает любое живое существо игры (игрок, враг)
+public class Person // Класс описывает любое живое существо игры (игрок, враг)
 {
     private string name;
     private int healpoints;
     private int attack;
     
     protected readonly string skin;
-    private Map.Cell currentCell;
+    private Map.Cell currentCell = null;
 
     protected Person(string name, int hp, int atk, string skin)
     {
@@ -22,6 +22,16 @@ public class Person// Класс описывает любое живое сущ
         this.healpoints = hp;
         this.attack = atk;
         this.skin = skin;
+    }
+
+    public void SetCell(Map.Cell cl)
+    {
+        if (currentCell != null)
+        {
+            currentCell.GetContainer().SetPerson(null);
+        }
+        currentCell = cl;
+        cl.GetContainer().SetPerson(this);
     }
 
     // Список функций того что может происходить c Person
@@ -59,7 +69,14 @@ public class Person// Класс описывает любое живое сущ
     public void Walk(Map.Cell target)
     {
         currentCell.GetContainer().SetPerson(null);
-        target.GetContainer().SetPerson(this);
+        // Render.RendGame();
+        // for (int i = 0; i < 1000; i++)
+        // {
+        //     
+        // }
+        currentCell = target;
+        currentCell.GetContainer().SetPerson(this);
+        Render.RendGame();
     }
 
     public string GetSkin()
@@ -67,7 +84,7 @@ public class Person// Класс описывает любое живое сущ
         return skin;
     }
 
-    public (vec2, string) getCharach() // ! в c# можно возвращать несколько переменных !
+    public (vec2, string) GetCharach() // ! в c# можно возвращать несколько переменных !
     {
         return (new vec2(healpoints, attack), name);
     }

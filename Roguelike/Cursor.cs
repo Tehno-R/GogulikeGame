@@ -17,6 +17,7 @@ public static class Cursor
                                             currentCell.GetPos().y);
 
     private const char SYMBOL = (char)210;
+    private static Map.Cell selected;
     
     public static void Draw(List<StringBuilder> orig) // я подразумевал что всё будет рендерится от RenderPack но где-то я прокололся
     {
@@ -52,6 +53,8 @@ public static class Cursor
 
     public static void Move(vec2 pos)
     {
+        ResetSelect();
+
         vec2 curInd = currentCell.GetPosInd();
         vec2 newInd = new vec2(curInd.x + pos.x, curInd.y + pos.y);
         if (newInd.x >= 0 && newInd.x < Map.GetGridSize().x && newInd.y >= 0 && newInd.y < Map.GetGridSize().y)
@@ -63,25 +66,68 @@ public static class Cursor
         }
     }
 
-    private static void CheckInfo()
+    private static void CheckInfo() // Если дергать разрешение консоли то почемуто не все стерается
     {
         Person targetP = currentCell.GetContainer().GetPerson();
-        // gameObject
+        GameObject targetG = currentCell.GetContainer().GetGameObject();
         List<string> infoText = new List<string>();
         if (targetP != null)
         {
-            (vec2 info, string name) = targetP.getCharach(); // ! в c# можно возвращать несколько переменных !
+            (vec2 info, string name) = targetP.GetCharach(); // ! в c# можно возвращать несколько переменных !
             infoText.Add("name: " + name);
             infoText.Add("hp: " + info.x);
             infoText.Add("atc: " + info.y);
 
             Render.SetStatus(infoText);
         }
+        else if (targetG != null)
+        {
+            (string name, string dscrpt) = targetG.GetCharach(); // ! в c# можно возвращать несколько переменных !
+            infoText.Add("name: " + name);
+            if (dscrpt.Length > 12)
+            {
+                infoText.Add("desc: " + dscrpt.Substring(0, 12));
+                int i = 13;
+                while (i != dscrpt.Length)
+                {
+                    if ((i - 13) % 18 == 0 && (i - 13) % 18 != 0)
+                    {
+                        infoText.Add(dscrpt.Substring(i - 18, 18));
+                    }
+                    i++;
+                }
+                infoText.Add(dscrpt.Substring(i - ((i - 13) % 18), (i - 13) % 18));
+            }
 
-        // else if (gameObject) ...
+            Render.SetStatus(infoText);
+        }
         else
         {
             Render.SetStatus(null);
+        }
+    }
+
+    public static void Select()
+    {
+        if (selected != null)
+        {
+            Program.player.Walk(selected);
+            ResetSelect();
+        }
+        else
+        {
+            selected = currentCell;
+            selected.setSelected(true);
+            Render.RendGame();
+        }
+    }
+
+    private static void ResetSelect()
+    {
+        if (selected != null)
+        {
+            selected.setSelected(false);
+            selected = null;
         }
     }
 }

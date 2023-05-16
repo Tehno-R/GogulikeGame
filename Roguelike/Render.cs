@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
+using System.Windows.Input;
 
 namespace Roguelike;
 
@@ -52,11 +54,11 @@ public static class Render
 
         int textPadding = ((endPos.y - startPos.y) / 2) - (text.Count / 2);
         if (textPadding < 0) textPadding = 0;
-        for (int i = textPadding + startPos.y, k = 0; i < endPos.y && k < text.Count && i < windowSize.y; i++, k++)
+        for (int i = textPadding + startPos.y, k = 0; i < endPos.y - 1 && k < text.Count && i < windowSize.y; i++, k++)
         {
             int strokePadding = ((endPos.x - startPos.x) / 2) - (text[k].Length / 2);
             if (strokePadding < 0) strokePadding = 0;
-            for (int j = strokePadding + startPos.x, l = 0; j < endPos.x - 1 && l < text[k].Length && j < windowSize.x; j++, l++)
+            for (int j = strokePadding + startPos.x, l = 0; j < endPos.x && l < text[k].Length && j < windowSize.x; j++, l++)
             {
                 toRend[i][j] = text[k][l];
             }

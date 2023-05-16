@@ -6,9 +6,11 @@ static class Program
     private static int windowWidth = Console.WindowWidth;
     private static int windowHeight = Console.WindowHeight;
 
+    public static Person player = new Hero();
+
     static void Main(string[] args)
     {
-        Menu();
+        // Menu();
         Game();
         GameOver();
     }
@@ -41,8 +43,9 @@ static class Program
     {
         // Render.Start();
         Map.Start();
-        Hero player = new Hero();
-        Map.SetPersonInCell(new vec2(2,3), player);
+        GameObject testObj = new ModAround();
+        player.SetCell(Map.GetCell(new vec2(3,4)));
+        Map.SetGameobjectInCell(new vec2(4,3), testObj);
         Render.RendGame();
 
         while (true)
@@ -67,6 +70,9 @@ static class Program
                         break;
                     case ConsoleKey.DownArrow:
                         Cursor.Move(CursorMoveDirection.down);
+                        break;
+                    case ConsoleKey.Enter:
+                        Cursor.Select();
                         break;
                 }
             }
