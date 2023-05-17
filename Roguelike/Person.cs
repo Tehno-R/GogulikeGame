@@ -10,10 +10,10 @@ interface IAttack
 public class Person // Класс описывает любое живое существо игры (игрок, враг)
 {
     private string name;
-    private int healpoints;
-    private int attack;
+    protected int healpoints;
+    protected int attack;
     
-    protected readonly string skin;
+    private readonly string skin;
     protected Map.Cell currentCell = null;
 
     protected Person(string name, int hp, int atk, string skin)
@@ -88,6 +88,19 @@ public class Person // Класс описывает любое живое су�
     {
         return (new vec2(healpoints, attack), name);
     }
-    
-    protected virtual void Death(){}
+
+    public vec2 GetPosId()
+    {
+        return currentCell.GetPosInd();
+    }
+
+    public int GetHP()
+    {
+        return healpoints;
+    }
+
+    public virtual void Death()
+    {
+        currentCell.GetContainer().SetPerson(null);
+    }
 }

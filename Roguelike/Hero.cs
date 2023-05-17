@@ -9,6 +9,9 @@ public class Hero : Person, IAttack // управляемый персонаж
                                 "EK{  I" +
                                 "Ec  >I"; // моделька персонажа
 
+    public static bool readyAttack = false;
+    private List<Person> targetToAttack = new List<Person>();
+
     public Hero() : base(NAME, WIZARDHP, WIZARDATK, SKIN) {}
 
     private bool standartA(int i, int j)
@@ -31,24 +34,44 @@ public class Hero : Person, IAttack // управляемый персонаж
     }
     public void Attack()
     {
-        vec2 curIdCell = currentCell.GetPosInd();
-
-        for (int i = 0; i < Map.GetGridSize().y; i++)
+        if (readyAttack)
         {
-            for (int j = 0; j < Map.GetGridSize().x; j++)
+            foreach (var target in targetToAttack)
             {
-                if (Map.GetCell(curIdCell).GetContainer().GetPerson() != null)
+                target.DealDamage(attack);
+                if (target.GetHP() <= 0)
+                {
+                    target.Death();
+                }
+            }
+            readyAttack = false;
+            targetToAttack = new List<Person>();
+            Program.uncheckAllSelected();
+        }
+        else
+        {
+            Program.uncheckAllSelected();
+            for (int i = 0; i < Map.GetGridSize().y; i++)
+            {
+                for (int j = 0; j < Map.GetGridSize().x; j++)
                 {
                     if (standartA(i, j))
                     {
-                        Map.GetCell(new vec2(j, i)).SetSelected(true);
+                        Map.Cell temp = Map.GetCell(new vec2(j, i));
+                        temp.SetSelected(true);
+                        Person target = temp.GetContainer().GetPerson();
+                        if (target != null)
+                        {
+                            targetToAttack.Add(target);
+                        }
                     }
                 }
             }
+            readyAttack = true;
         }
     }
 
-    protected override void Death()
+    public override void Death()
     {
         // stop game and show game over
     }

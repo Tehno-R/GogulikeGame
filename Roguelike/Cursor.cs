@@ -116,9 +116,13 @@ public static class Cursor
         }
         else
         {
-            selected = currentCell;
-            Map.ResetSelected();
-            selected.SetSelected(true);
+            vec2 dif = currentCell.GetPosInd() - Program.player.GetPosId();
+            if (Math.Abs(dif.x) <= 1 && Math.Abs(dif.y) <= 1)
+            {
+                Program.uncheckAllSelected();
+                selected = currentCell;
+                selected.SetSelected(true);
+            }
         }
     }
 

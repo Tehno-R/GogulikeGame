@@ -84,7 +84,6 @@ static class Program
                         Render.RendGame();
                         break;
                     case ConsoleKey.F3:
-                        uncheckAllSelected();
                         player.Attack();
                         Render.RendGame();
                         break;
@@ -127,6 +126,7 @@ static class Program
                 Map.Cell temp = Map.GetCell(new vec2(j, i));
                 temp.SetSelected(false);
                 Cursor.selected = null;
+                Hero.readyAttack = false;
             }
         }
     }
