@@ -43,9 +43,8 @@ static class Program
     {
         // Render.Start();
         Map.Start();
-        GameObject testObj = new ModAround();
-        player.SetCell(Map.GetCell(new vec2(3,4)));
-        Map.SetGameobjectInCell(new vec2(4,3), testObj);
+        LevelGenerator.GenerateNewLevel(1);
+        
         Render.RendGame();
 
         while (true)
@@ -85,6 +84,7 @@ static class Program
                         break;
                     case ConsoleKey.F3:
                         player.Attack();
+                        Cursor.CheckInfo();
                         Render.RendGame();
                         break;
                 }
@@ -129,5 +129,14 @@ static class Program
                 Hero.readyAttack = false;
             }
         }
+        Hero.ResetTargets();
+    }
+    public static bool CheckWindow(int i, int j)
+    {
+        return i < windowHeight && j < windowWidth;
+    }
+    public static bool CheckWindow(vec2 vec)
+    {
+        return vec.y < windowHeight && vec.x < windowWidth;
     }
 }

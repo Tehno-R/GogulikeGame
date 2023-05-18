@@ -38,11 +38,6 @@ public static class Map
             this.posInd = ind;
             endPos = new vec2(pos.x + lenCell.x, pos.y + lenCell.y);
         }
-
-        private bool checkWindow(int i, int j)
-        {
-            return i < winSize.y && j < winSize.x;
-        }
         public override void Draw(List<StringBuilder> orig)
         {
             winSize = Program.getWindowSize();
@@ -73,7 +68,7 @@ public static class Map
                      k <= template.Length / (Cell.lenCell.x - 2); i++, k++)
                 {
                     for (int j = pos.x + 1, l = 0; j < endPos.x - 1 &&
-                                                   checkWindow(i, j) &&
+                                                   Program.CheckWindow(i, j) &&
                                                    l < template.Length / (Cell.lenCell.y - 2); j++, l++)
                     {
                         orig[i][j] = template[k * Cell.lenCell.y + l + k];
@@ -87,7 +82,7 @@ public static class Map
         {
             for (int i = pos.y + 1; i < endPos.y - 1; i++)
             {
-                for (int j = pos.x + 1; j < endPos.x - 1 && checkWindow(i, j); j++)
+                for (int j = pos.x + 1; j < endPos.x - 1 && Program.CheckWindow(i, j); j++)
                 {
                     orig[i][j] = (char)254;
                 }
@@ -128,7 +123,7 @@ public static class Map
             else return null;
         }
     }
-    private class Grid : RenderPack
+    public class Grid : RenderPack
     {
         private vec2 startPos = new vec2(0, Render.padding);
         private static readonly vec2 gridSize = new vec2(mapSize.x, mapSize.y);
@@ -192,5 +187,10 @@ public static class Map
     public static void Start()
     {
         Render.AddRendPack(_grid);
+    }
+
+    public static Grid GetGrid()
+    {
+        return _grid;
     }
 }

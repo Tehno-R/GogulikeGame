@@ -66,14 +66,9 @@ public class Person // Класс описывает любое живое су�
         if (attack < 0) attack = 0;
     }
     //
-    public void Walk(Map.Cell target)
+    public virtual void Walk(Map.Cell target)
     {
         currentCell.GetContainer().SetPerson(null);
-        // Render.RendGame();
-        // for (int i = 0; i < 1000; i++)
-        // {
-        //     
-        // }
         currentCell = target;
         currentCell.GetContainer().SetPerson(this);
         Render.RendGame();
@@ -102,5 +97,6 @@ public class Person // Класс описывает любое живое су�
     public virtual void Death()
     {
         currentCell.GetContainer().SetPerson(null);
+        LevelGenerator.ReduceEnemy();
     }
 }

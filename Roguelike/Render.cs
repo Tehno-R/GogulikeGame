@@ -66,21 +66,51 @@ public static class Render
     }
     public static void RendGame()
     {
+        // init
         vec2 windowSize = Program.getWindowSize();
         toRend = new List<StringBuilder>();
         for (int i = 0; i < windowSize.y; i++) // prepare StringBuild (init)
         {
             toRend.Add(new StringBuilder(new string(' ', windowSize.x)));
         }
-
+        // playground
         foreach (var t in renderList) // draw grid
         {
             t.Draw(toRend);
         }
+        // gameobject panel
+        vec2 cellSize = Hero.ArtPanelGrid.GetCellSize();
+        for (int e = 0; e < Hero.ArtPanelGrid.GetLength(); e++)
+        {
+            vec2 startPos = new vec2(0 + (cellSize.x - 1) * e,0);
+            // string name = Hero.ArtPanelGrid.GetArtefact(e).GetCharach().name;
+            // for (int j = startPos.x + 1 + 2, l = 0; j < startPos.x + cellSize.x - 1 &&
+            //                                         Program.CheckWindow(1, j); j++, l++)
+            // {
+            //     toRend[1][j] = name[l];
+            // }
+
+            string template = Hero.ArtPanelGrid.GetArtefact(e).GetSkin();
+            for (int i = startPos.y + 1 + 1, k = 0;
+                 i < padding - 1 &&
+                 k < template.Length / (Map.Cell.lenCell.x - 2); i++, k++)
+            {
+                for (int j = startPos.x + 1 + 2, l = 0; j < startPos.x + cellSize.x - 1 &&
+                                               Program.CheckWindow(i, j) &&
+                                               l < template.Length / (Map.Cell.lenCell.y - 2); j++, l++)
+                {
+                    toRend[i][j] = template[k * Map.Cell.lenCell.y + l + k];
+                }
+            }
+        }
+        // cursor
         Cursor.Draw(toRend); // draw cursor
+        // info text
         int endGridX = Map.GetGridSize().x * (Map.Cell.lenCell.x - 1);
         RendText(ObjStatus, new vec2(topPadding + 1, 0), new vec2(endGridX, padding));
+        // border
         BuildRoomBase(); // draw top border and center border
+        //
         Console.Clear();
         for (int i = 0; i < windowSize.y; i++) // print result
         {

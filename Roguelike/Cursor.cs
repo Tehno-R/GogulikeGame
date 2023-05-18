@@ -65,7 +65,7 @@ public static class Cursor
         }
     }
 
-    private static void CheckInfo() // Если дергать разрешение консоли то почемуто не все стерается
+    public static void CheckInfo() // Если дергать разрешение консоли то почемуто не все стерается
     {
         Person targetP = currentCell.GetContainer().GetPerson();
         GameObject targetG = currentCell.GetContainer().GetGameObject();
@@ -112,12 +112,11 @@ public static class Cursor
         {
             Program.player.Walk(selected);
             ResetSelect();
-            Program.uncheckAllSelected();
         }
         else
         {
             vec2 dif = currentCell.GetPosInd() - Program.player.GetPosId();
-            if (Math.Abs(dif.x) <= 1 && Math.Abs(dif.y) <= 1)
+            if (Math.Abs(dif.x) <= 1 && Math.Abs(dif.y) <= 1 && currentCell.GetContainer().GetPerson() == null)
             {
                 Program.uncheckAllSelected();
                 selected = currentCell;
