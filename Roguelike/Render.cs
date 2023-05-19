@@ -4,10 +4,11 @@ namespace Roguelike;
 
 public static class Render
 {
-    private static RenderPack renderGrid = null;
-    private static List<StringBuilder> toRend;
-    private static List<StringBuilder> roomBase;
-    private static List<string> ObjStatus = null;
+    private static RenderPack renderGrid = null;            // ссылка на главную сетку
+    private static List<StringBuilder> toRend;              // хранит в себе итоговый вывод
+    private static List<StringBuilder> roomBase;            // паттерн обрамления
+    private static List<string> ObjStatus = null;           // хранит инфу о выделенном предмете
+    private static List<string> log = new List<string>();   // история действий
 
     private const int PADDING = 7;              // константа отступа (используется если консоль больше окна инветоря)
     public static int padding = PADDING;        // отступ в символах уделяемый для строки инвенторя
@@ -36,8 +37,9 @@ public static class Render
             }
         }
         
+        // print result
         Console.Clear();
-        for (int i = 0; i < windowSize.y; i++) // print result
+        for (int i = 0; i < windowSize.y; i++) 
         {
             for (int j = 0; j < windowSize.x; j++)
             {
@@ -45,6 +47,7 @@ public static class Render
             }
         }
     }
+    // функция для простого вывода текста по центру эерана
     public static void RendText(List<string> text, vec2 startPos, vec2 endPos)
     {
         if (text == null) return;
@@ -78,13 +81,6 @@ public static class Render
         for (int e = 0; e < Hero.ArtPanelGrid.GetLength(); e++)
         {
             vec2 startPos = new vec2(0 + (cellSize.x - 1) * e,0);
-            // string name = Hero.ArtPanelGrid.GetArtefact(e).GetCharach().name;
-            // for (int j = startPos.x + 1 + 2, l = 0; j < startPos.x + cellSize.x - 1 &&
-            //                                         Program.CheckWindow(1, j); j++, l++)
-            // {
-            //     toRend[1][j] = name[l];
-            // }
-
             string template = Hero.ArtPanelGrid.GetArtefact(e).GetSkin();
             for (int i = startPos.y + 1 + 1, k = 0;
                  i < padding - 1 &&
@@ -103,11 +99,19 @@ public static class Render
         // info text
         int endGridX = Map.GetGridSize().x * (Map.Cell.lenCell.x - 1);
         RendText(ObjStatus, new vec2(topPadding + 1, 0), new vec2(endGridX, padding));
+        // log
+        for (int i = padding + 1, l = 0; l < 30 && i < windowSize.y && l < log.Count; i++, l++)
+        {
+            for (int j = topPADDING + 23, k = 0; j < windowSize.x - 1 && k < log[l].Length; j++, k++)
+            {
+                toRend[i][j] = log[l][k];
+            }
+        }
         // border
         BuildRoomBase(); // draw top border and center border
-        //
+        // print result
         Console.Clear();
-        for (int i = 0; i < windowSize.y; i++) // print result
+        for (int i = 0; i < windowSize.y; i++) 
         {
             for (int j = 0; j < windowSize.x; j++)
             {
@@ -115,7 +119,7 @@ public static class Render
             }
         }
     }
-    public static void BuildRoomBase()
+    public static void BuildRoomBase() // рисует обрамление (рамочки)
     {
         vec2 windowSize = Program.getWindowSize();
         if (windowSize.y <= PADDING) padding = windowSize.y - 1;
@@ -145,14 +149,23 @@ public static class Render
             }
         }
     }
-    public static void SetRenderPack(RenderPack pack)
+    public static void SetRenderPack(RenderPack pack) // сохраняет сетку для вывода
     {
         renderGrid = pack;
     }
 
-    public static void SetStatus(List<string> info)
+    public static void SetStatus(List<string> info) // установить инфу о обьекте
     {
         ObjStatus = info;
+    }
+
+    public static void AddLog(string lg) // добавить строку действия
+    {
+        if (log.Count == 10)
+        {
+            log.RemoveAt(0);
+        }
+        log.Add(lg);
     }
 
 }

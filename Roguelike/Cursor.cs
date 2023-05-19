@@ -112,6 +112,7 @@ public static class Cursor
         {
             Program.player.Walk(selected);
             ResetSelect();
+            Render.AddLog("Hero walk to (" + currentCell.GetPosInd().x + "; " + currentCell.GetPosInd().y + ")");
             return true;
         }
         else

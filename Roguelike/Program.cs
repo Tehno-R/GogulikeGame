@@ -7,10 +7,11 @@ static class Program
     private static int windowHeight = Console.WindowHeight;
 
     public static Hero player = new Hero();
-
+    public static bool gameover = false;
+    
     static void Main(string[] args)
     {
-        // Menu();
+        Menu();
         Game();
         GameOver();
     }
@@ -22,7 +23,7 @@ static class Program
         text.Add("");
         text.Add("Press Enter to Start");
         Render.RendMainMenu(text);
-        
+
         Boolean flag = true;
         while (flag)
         {
@@ -39,11 +40,12 @@ static class Program
             }
         }
     }
+
     private static void Game()
     {
         // Render.Start();
         LevelGenerator.GenerateNewLevel(1);
-        
+
         Render.RendGame();
 
         while (true)
@@ -63,7 +65,8 @@ static class Program
                         Render.RendGame();
                         break;
                     case ConsoleKey.LeftArrow:
-                        Cursor.Move(CursorMoveDirection.left); ;
+                        Cursor.Move(CursorMoveDirection.left);
+                        ;
                         uncheckAllSelected();
                         Render.RendGame();
                         break;
@@ -92,16 +95,34 @@ static class Program
                     // потомучто компилятор ругается что имена одинаковые
                 }
             }
+
             if (LevelGenerator.GetCountExistEnemy() == 0)
             {
                 LevelGenerator.GenerateNewLevel(LevelGenerator.rnd.Next(3));
                 Render.RendGame();
             }
+
+            if (gameover)
+            {
+                break;
+            }
         }
     }
+
     private static void GameOver()
     {
-        
+        List<string> text = new List<string>();
+        text.Add("Game Over");
+        Render.RendMainMenu(text);
+
+        Boolean flag = true;
+        while (flag)
+        {
+            if (CheckSize())
+            {
+                Render.RendMainMenu(text);
+            }
+        }
     }
 
     private static bool CheckSize()
@@ -137,12 +158,15 @@ static class Program
                 Hero.readyAttack = false;
             }
         }
+
         Hero.ResetTargets();
     }
+
     public static bool CheckWindow(int i, int j)
     {
         return i < windowHeight && j < windowWidth;
     }
+
     public static bool CheckWindow(vec2 vec)
     {
         return vec.y < windowHeight && vec.x < windowWidth;
@@ -156,10 +180,12 @@ static class Program
         {
             e.Walk(playerCell);
         }
+
         foreach (var e in s)
         {
             e.Walk(playerCell);
         }
+
         foreach (var e in n)
         {
             e.Walk(playerCell);

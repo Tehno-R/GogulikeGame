@@ -17,6 +17,11 @@ public static class LevelGenerator
     public static void GenerateNewLevel(int enemCnt)
     {
         currentLevel++;
+        if (currentLevel == 5)
+        {
+            Program.gameover = true;
+            return;
+        }
         enemyCount += enemCnt;
         zombies = new List<Zombie>();
         skeletons = new List<Skeleton>();

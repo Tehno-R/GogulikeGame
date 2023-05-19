@@ -49,12 +49,16 @@ public class Zombie : Person
 
     public void Attack()
     {
+        (vec2 tagterHP_ATK, string name) = Program.player.GetCharach();
+        Render.AddLog("Zombie attack: hero " +
+                      + tagterHP_ATK.x + " -> " + (tagterHP_ATK.x - attack));
         Program.player.DealDamage(attack);
     }
 
     public void Death()
     {
         LevelGenerator.RefreshEnemyLists();
+        Render.AddLog("Zombie is death");
     }
 }
 
@@ -107,13 +111,18 @@ public class Skeleton : Person
 
     private void Attack()
     {
+        (vec2 tagterHP_ATK, string name) = Program.player.GetCharach();
+        Render.AddLog("Skeleton attack: hero " +
+                      + tagterHP_ATK.x + " -> " + (tagterHP_ATK.x - attack));
         Program.player.DealDamage(attack);
     }
     
     public void Death()
     {
         LevelGenerator.RefreshEnemyLists();
+        Render.AddLog("Skeleton is death");
     }
+    
 }
 
 public class Necromant : Person
@@ -169,6 +178,9 @@ public class Necromant : Person
     {
         if (counter == 5)
         {
+            (vec2 tagterHP_ATK, string name) = Program.player.GetCharach();
+            Render.AddLog("Zombie attack: hero " +
+                          + tagterHP_ATK.x + " -> " + (tagterHP_ATK.x - attack));
             counter = 0;
             Skeleton newS = new Skeleton();
             LevelGenerator.GetSkeletonsList().Add(newS);
@@ -183,5 +195,6 @@ public class Necromant : Person
     public void Death()
     {
         LevelGenerator.RefreshEnemyLists();
+        Render.AddLog("Necromat is death");
     }
 }

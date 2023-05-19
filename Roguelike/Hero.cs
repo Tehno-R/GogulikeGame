@@ -84,6 +84,9 @@ public class Hero : Person, IAttack // управляемый персонаж
         {
             foreach (var target in targetToAttack)
             {
+                (vec2 tagterHP_ATK, string name) = target.GetCharach();
+                Render.AddLog("Hero attack: " + name + " "
+                              + tagterHP_ATK.x + " -> " + (tagterHP_ATK.x - this.attack));
                 target.DealDamage(attack);
             }
             readyAttack = false;
@@ -137,6 +140,6 @@ public class Hero : Person, IAttack // управляемый персонаж
 
     public override void Death()
     {
-        // stop game and show game over
+        Program.gameover = true;
     }
 }
