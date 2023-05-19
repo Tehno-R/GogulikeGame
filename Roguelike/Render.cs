@@ -6,7 +6,7 @@ namespace Roguelike;
 
 public static class Render
 {
-    private static List<RenderPack> renderList = new List<RenderPack>();
+    private static RenderPack renderGrid = null;
     private static List<StringBuilder> toRend;
     private static List<StringBuilder> roomBase;
     private static List<string> ObjStatus = null;
@@ -74,10 +74,7 @@ public static class Render
             toRend.Add(new StringBuilder(new string(' ', windowSize.x)));
         }
         // playground
-        foreach (var t in renderList) // draw grid
-        {
-            t.Draw(toRend);
-        }
+        renderGrid.Draw(toRend);
         // gameobject panel
         vec2 cellSize = Hero.ArtPanelGrid.GetCellSize();
         for (int e = 0; e < Hero.ArtPanelGrid.GetLength(); e++)
@@ -150,9 +147,9 @@ public static class Render
             }
         }
     }
-    public static void AddRendPack(RenderPack pack)
+    public static void SetRenderPack(RenderPack pack)
     {
-        renderList.Add(pack);
+        renderGrid = pack;
     }
 
     public static void SetStatus(List<string> info)

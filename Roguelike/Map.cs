@@ -51,8 +51,8 @@ public static class Map
             }
 
             string template = null;
-            Person drawTargetP = GetContainer().GetPerson();
-            GameObject drawTargetG = GetContainer().GetGameObject();
+            Person drawTargetP = this.GetContainer().GetPerson();
+            GameObject drawTargetG = this.GetContainer().GetGameObject();
             if (drawTargetP != null)
             {
                 template = drawTargetP.GetSkin();
@@ -131,6 +131,7 @@ public static class Map
 
         public Grid()
         {
+            Render.SetRenderPack(_grid);
             for (int i = 0; i < gridSize.y; i++)
             {
                 allCell.Add(new List<Cell>());
@@ -184,13 +185,14 @@ public static class Map
         return _grid.GetSize();
     }
 
-    public static void Start()
-    {
-        Render.AddRendPack(_grid);
-    }
-
     public static Grid GetGrid()
     {
+        return _grid;
+    }
+
+    public static Grid GenNewGrid()
+    {
+        _grid = new Grid();
         return _grid;
     }
 }

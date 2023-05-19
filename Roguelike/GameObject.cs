@@ -26,6 +26,16 @@ public class GameObject
     {
         return (name, descript);
     }
+    
+    public void SetCell(Map.Cell cl)
+    {
+        if (currentCell != null)
+        {
+            currentCell.GetContainer().SetGameObject(null);
+        }
+        currentCell = cl;
+        cl.GetContainer().SetGameObject(this);
+    }
 
     public virtual void GetObj() {}
 }

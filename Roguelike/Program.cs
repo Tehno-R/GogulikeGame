@@ -42,7 +42,6 @@ static class Program
     private static void Game()
     {
         // Render.Start();
-        Map.Start();
         LevelGenerator.GenerateNewLevel(1);
         
         Render.RendGame();

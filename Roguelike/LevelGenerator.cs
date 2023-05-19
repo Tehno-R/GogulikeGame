@@ -14,7 +14,8 @@ public static class LevelGenerator
     public static void GenerateNewLevel(int enemCnt)
     {
         enemyCount += enemCnt;
-        grid = new Map.Grid();
+        grid = Map.GenNewGrid();
+        Render.SetRenderPack(grid);
         player.SetCell(Map.GetCell(new vec2(3,4)));
         for (int i = 0; i < enemyCount; i++)
         {
@@ -32,6 +33,16 @@ public static class LevelGenerator
                     break;
             }
         }
+        for (int i = 0; i < rnd.Next(3); i++)
+        {
+            int rndNum = rnd.Next(1);
+            switch (rndNum)
+            {
+                case 0:
+                    GenerateNewObject(new ModAround());
+                    break;
+            }
+        }
     }
 
     private static void GenerateNewEnemy(Person enemy)
@@ -45,6 +56,20 @@ public static class LevelGenerator
             {
                 enemy.SetCell(cell);
                 enemyExist++;
+                flag = false;
+            }    
+        }
+    }
+    private static void GenerateNewObject(GameObject obj)
+    {
+        bool flag = true;
+        while (flag)
+        {
+            vec2 pos = new vec2(rnd.Next(5, 17), rnd.Next(0, 8));
+            Map.Cell cell = Map.GetCell(pos);
+            if (cell.GetContainer().GetPerson() == null)
+            {
+                obj.SetCell(cell);
                 flag = false;
             }    
         }
