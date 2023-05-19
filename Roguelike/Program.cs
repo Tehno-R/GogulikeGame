@@ -78,15 +78,24 @@ static class Program
                         Render.RendGame();
                         break;
                     case ConsoleKey.Enter:
-                        Cursor.Select();
+                        bool temp1 = Cursor.Select();
+                        if (temp1) EnemyTurn();
                         Render.RendGame();
                         break;
                     case ConsoleKey.F3:
-                        player.Attack();
+                        bool temp2 = player.Attack();
                         Cursor.CheckInfo();
+                        if (temp2) EnemyTurn();
                         Render.RendGame();
                         break;
+                    // между temp1 и temp2 нет никакой разницы, я дал именам цифры только
+                    // потомучто компилятор ругается что имена одинаковые
                 }
+            }
+            if (LevelGenerator.GetCountExistEnemy() == 0)
+            {
+                LevelGenerator.GenerateNewLevel(LevelGenerator.rnd.Next(3));
+                Render.RendGame();
             }
         }
     }
@@ -137,5 +146,23 @@ static class Program
     public static bool CheckWindow(vec2 vec)
     {
         return vec.y < windowHeight && vec.x < windowWidth;
+    }
+
+    public static void EnemyTurn()
+    {
+        Map.Cell playerCell = Map.GetCell(Program.player.GetPosId());
+        (List<Zombie> z, List<Skeleton> s, List<Necromant> n) = LevelGenerator.GetEnemyLists();
+        foreach (var e in z)
+        {
+            e.Walk(playerCell);
+        }
+        foreach (var e in s)
+        {
+            e.Walk(playerCell);
+        }
+        foreach (var e in n)
+        {
+            e.Walk(playerCell);
+        }
     }
 }

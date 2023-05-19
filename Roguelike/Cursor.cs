@@ -106,12 +106,13 @@ public static class Cursor
         }
     }
 
-    public static void Select()
+    public static bool Select()
     {
         if (selected != null)
         {
             Program.player.Walk(selected);
             ResetSelect();
+            return true;
         }
         else
         {
@@ -122,6 +123,7 @@ public static class Cursor
                 selected = currentCell;
                 selected.SetSelected(true);
             }
+            return false;
         }
     }
 

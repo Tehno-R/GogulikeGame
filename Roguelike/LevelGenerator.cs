@@ -2,7 +2,7 @@
 
 public static class LevelGenerator
 {
-    static Random rnd = new Random();
+    public static Random rnd = new Random();
 
     private static Map.Grid grid = Map.GetGrid();
     private static Hero player = Program.player;
@@ -10,10 +10,17 @@ public static class LevelGenerator
     private static int enemyCount = 0;
     private static int enemyExist = 0;
 
-    private static int currentLevel = 1;
+    private static int currentLevel = 0;
+    private static List<Zombie> zombies = new List<Zombie>();
+    private static List<Skeleton> skeletons = new List<Skeleton>();
+    private static List<Necromant> necromants = new List<Necromant>();
     public static void GenerateNewLevel(int enemCnt)
     {
+        currentLevel++;
         enemyCount += enemCnt;
+        zombies = new List<Zombie>();
+        skeletons = new List<Skeleton>();
+        necromants = new List<Necromant>();
         grid = Map.GenNewGrid();
         Render.SetRenderPack(grid);
         player.SetCell(Map.GetCell(new vec2(3,4)));
@@ -23,13 +30,19 @@ public static class LevelGenerator
             switch (rndNum)
             {
                 case 0:
-                    GenerateNewEnemy(new Zombie());
+                    Zombie newZ = new Zombie();
+                    zombies.Add(newZ);
+                    GenerateNewEnemy(newZ);
                     break;
                 case 1:
-                    GenerateNewEnemy(new Skeleton());
+                    Skeleton newS = new Skeleton();
+                    skeletons.Add(newS);
+                    GenerateNewEnemy(newS);
                     break;
                 case 2:
-                    GenerateNewEnemy(new Necromant());
+                    Necromant newN = new Necromant();
+                    necromants.Add(newN);
+                    GenerateNewEnemy(newN);
                     break;
             }
         }
@@ -45,7 +58,7 @@ public static class LevelGenerator
         }
     }
 
-    private static void GenerateNewEnemy(Person enemy)
+    public static void GenerateNewEnemy(Person enemy)
     {
         bool flag = true;
         while (flag)
@@ -78,10 +91,54 @@ public static class LevelGenerator
     public static void ReduceEnemy()
     {
         enemyExist--;
-        if (enemyExist == 0)
+    }
+
+    public static (List<Zombie>, List<Skeleton>, List<Necromant>) GetEnemyLists()
+    {
+        return (zombies, skeletons, necromants);
+    }
+    public static List<Zombie> GetZombiesList()
+    {
+        return zombies;
+    }
+    public static List<Skeleton> GetSkeletonsList()
+    {
+        return skeletons;
+    }
+    public static List<Necromant> GetNecromantsList()
+    {
+        return necromants;
+    }
+
+    public static void RefreshEnemyLists()
+    {
+        zombies = new List<Zombie>();
+        skeletons = new List<Skeleton>();
+        necromants = new List<Necromant>();
+        for (int i = 0; i < Map.GetGridSize().y; i++)
         {
-            GenerateNewLevel(rnd.Next(3));
-            currentLevel++;
+            for (int j = 0; j < Map.GetGridSize().x; j++)
+            {
+                Person enemy = Map.GetCell(new vec2(j, i)).GetContainer().GetPerson();
+                if (enemy == null) continue;
+                switch (enemy.GetCharach().Item2)
+                {
+                    case "Zombie":
+                        zombies.Add((Zombie)enemy);
+                        break;
+                    case "Skeleton":
+                        skeletons.Add((Skeleton)enemy);
+                        break;
+                    case "Necromant":
+                        necromants.Add((Necromant)enemy);
+                        break;
+                }
+            }
         }
+    }
+
+    public static int GetCountExistEnemy()
+    {
+        return enemyExist;
     }
 }

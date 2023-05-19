@@ -4,7 +4,7 @@ namespace Roguelike;
 
 interface IAttack
 {
-    void Attack();
+    bool Attack();
 }
 
 public class Person // Класс описывает любое живое существо игры (игрок, враг)
@@ -98,5 +98,6 @@ public class Person // Класс описывает любое живое су�
     {
         currentCell.GetContainer().SetPerson(null);
         LevelGenerator.ReduceEnemy();
+        LevelGenerator.RefreshEnemyLists();
     }
 }

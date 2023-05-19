@@ -78,7 +78,7 @@ public class Hero : Person, IAttack // управляемый персонаж
         }
         return false;
     }
-    public void Attack()
+    public bool Attack()
     {
         if (readyAttack)
         {
@@ -89,6 +89,7 @@ public class Hero : Person, IAttack // управляемый персонаж
             readyAttack = false;
             targetToAttack = new List<Person>();
             Program.uncheckAllSelected();
+            return true;
         }
         else
         {
@@ -110,6 +111,7 @@ public class Hero : Person, IAttack // управляемый персонаж
                 }
             }
             readyAttack = true;
+            return false;
         }
     }
 
